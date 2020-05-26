@@ -1,17 +1,26 @@
 {
-  "name": "mobile-fashcards-udacity",
-  "displayName": "mobile-fashcards-udacity",
   "expo": {
-    "name": "mobile-fashcards-udacity",
-    "slug": "expo-template-bare",
-    "version": "1.0.0",
+    "name": "mobile-flashcards",
+    "slug": "mobile-flashcards",
     "platforms": [
       "ios",
       "android",
       "web"
     ],
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "splash": {
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "ios": {
+      "supportsTablet": true
+    }
   }
 }

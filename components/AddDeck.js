@@ -1,91 +1,89 @@
-// import React from 'react'
-// import { connect } from 'react-redux'
-// import { submitDeck } from '../utils/api'
-// import uuidv1 from 'uuid/v1'
-// import { addDeck } from '../actions'
-// import { white,grey } from '../utils/colors'
-// import {
-//   Text,
-//   StyleSheet,
-//   TextInput,
-//   KeyboardAvoidingView
-// } from 'react-native'
+import React from 'react'
+import { View, TextInput, Text, StyleSheet } from 'react-native'
+import { saveDeckTitle } from '../utils/api'
+import { purple, white } from '../utils/colors'
+import {CommonActions} from '@react-navigation/native'
+import { addDeck } from '../actions'
+import { connect } from 'react-redux'
+import BigButton from './BigButton'
 
-// class AddDeck extends React.Component {
-//     constructor(props) {
-//         super(props)
-//         this.state = {
-//           input: ""  
-//         } 
-//     }
-//     // state = {
-        
-//     // };
+class AddDeck extends React.Component {
+  state = {
+    title: ''
+  }
 
-//     handleInputChange = input => {
-//         this.setState(() => ({
-//             input
-//         }));
-//     };
+  handleTitleChange = (title) => {
+    this.setState(() => ({
+      title
+    }))
+  }
+  
+  
+  submit = () => {
+    const title = this.state.title
 
-//     handleSubmit = () => {
-//         const { dispatch, navigation } = this.props
-//         const id = uuidv1()
-//         const title = this.state.title
-//         const cards = []
-//         const idx = 0
-//         const score = 0
-//         deck = { id, title, cards, idx, score }
-//         dispatch(addDeck(deck))
-//         submitDeck(deck)
+    this.props.dispatch(addDeck(title))
+  
+    this.setState(() => ({ title: '' }))
+  
+    this.props.navigation.dispatch(
+      CommonActions.goBack({
+          key: 'Deck',
+      }))
+    
 
-//         // reset input
-//         this.setState({
-//             input: ""
-//         });
-//     }
+    saveDeckTitle(title)
+   
+  }
 
+  render () {
+    const title = this.state.title
+    return (
+      <View style={styles.container}>
+        <Text style={styles.newTitleText}>
+                New deck?
+        </Text>
+        <TextInput 
+          style={styles.input}
+          value={title}
+          onChangeText={this.handleTitleChange}>
+        </TextInput>
+        <BigButton text='Submit' onPress={this.submit} />
+      </View>
+    )
+  }
+}
 
-//     render() {
-//         const { input } = this.state;
-//         return (
-//             <KeyboardAvoidingView behavior="padding" style={styles.container}>
-//                 <Text style={styles.label}>What will you learn in this deck?</Text>
-//                 <TextInput
-//                     style={styles.input}
-//                     value={input}
-//                     placeholder="e.g. Algebra"
-//                     onChangeText={this.handleInputChange}
-//                 />
-//                 <StyledButton onPress={this.handleSubmit}>
-//                     <Text>Create Deck</Text>
-//                 </StyledButton>
-//             </KeyboardAvoidingView>
-//         )
-//     }
-// }
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: white
+  },
+  iosSubmitBtn: {
+    backgroundColor: purple,
+    padding: 10,
+    borderRadius: 7,
+    height: 45,
+    marginLeft: 40,
+    marginRight: 40,
+    marginRight: 40
+  },
+  submitBtnText: {
+    color: white,
+    fontSize: 22,
+    textAlign: 'center'
+  },
+  input: {
+    height: 40, 
+    borderColor: 'gray', 
+    borderWidth: 1
+  },
+  newTitleText: {
+    fontSize: 20,
+    paddingTop: 20,
+    paddingBottom: 20
+  }
+})
 
-// const styles = StyleSheet.create({
-//     container: {
-//       flex: 1,
-//       justifyContent: "center",
-//       alignItems: "center"
-//     },
-//     label: {
-//       fontSize: 20,
-//       fontWeight: "bold",
-//       textAlign: "center"
-//     },
-//     input: {
-//       backgroundColor: white,
-//       width: 350,
-//       fontSize: 20,
-//       height: 50,
-//       padding: 10,
-//       borderRadius: 1,
-//       borderColor: grey,
-//       margin: 20
-//     }  
-//   });
-
-// export default connect()(AddDeck)
+export default connect()(AddDeck)
